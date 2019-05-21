@@ -1,6 +1,17 @@
 # bookmark_manager
 Bookmark Manager web application
 
+#### User Stories
+```
+As a user
+So that I can see the current bookmarks
+I would like to list them
+
+As a user
+So that I can easily visit a page
+I would like to add it to the bookmarks
+```
+
 #### Database Setup
 
 ```
