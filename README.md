@@ -8,8 +8,12 @@ So that I can see the current bookmarks
 I would like to list them
 
 As a user
-So that I can easily visit a page
+So that I can easily visit a page next time
 I would like to add it to the bookmarks
+
+As a user
+So that I don't see a redundant bookmark
+I would like to delete it from the bookmarks
 ```
 
 #### Database Setup
