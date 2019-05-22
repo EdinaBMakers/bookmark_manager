@@ -1,4 +1,5 @@
 require 'bookmark'
+require 'database_helpers'
 
 describe Bookmark do
   describe '#new' do
@@ -30,7 +31,10 @@ describe Bookmark do
   describe '.create' do
     it 'creates a new bookmark' do
       bookmark = Bookmark.create(url: 'https://www.bbc.co.uk/', title: 'BBC')
+      persisted_data = persisted_data(id: bookmark.id)
 
+      expect(bookmark).to be_a Bookmark
+      expect(bookmark.id).to eq persisted_data['id']
       expect(bookmark.url).to eq('https://www.bbc.co.uk/')
       expect(bookmark.title).to eq('BBC')
     end

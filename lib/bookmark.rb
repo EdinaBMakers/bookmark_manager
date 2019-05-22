@@ -20,8 +20,8 @@ class Bookmark
 
   def self.create(url:, title:)
     connection = connect_to_db
-    bookmark_hash = connection.exec("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') " +\
-     "RETURNING id, url, title").first
+    bookmark_hash = connection.exec("INSERT INTO bookmarks (url, title)" +\
+    "VALUES('#{url}', '#{title}') RETURNING id, url, title").first
 
      Bookmark.new(bookmark_hash['id'], bookmark_hash['url'], bookmark_hash['title'])
   end
