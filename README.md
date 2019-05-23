@@ -14,6 +14,10 @@ I would like to add it to the bookmarks
 As a user
 So that I don't see a redundant bookmark
 I would like to delete it from the bookmarks
+
+As a user
+So that I can change a bookmark
+I would like to update it
 ```
 
 #### Database Setup
