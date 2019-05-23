@@ -1,5 +1,5 @@
 feature 'Adding bookmark' do
-  scenario 'add bookmark via form' do
+  scenario 'user can add bookmark via form' do
     visit('/bookmarks')
     fill_in 'url', with: 'https://www.bbc.co.uk/'
     fill_in 'title', with: 'BBC'

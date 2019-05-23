@@ -26,6 +26,11 @@ class Bookmark
      Bookmark.new(bookmark_hash['id'], bookmark_hash['url'], bookmark_hash['title'])
   end
 
+  def self.delete(id:)
+    connection = connect_to_db
+    connection.exec("DELETE FROM bookmarks WHERE id = #{id}")
+  end
+
   private
 
   def self.connect_to_db

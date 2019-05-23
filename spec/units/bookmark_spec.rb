@@ -34,9 +34,18 @@ describe Bookmark do
       persisted_data = persisted_data(id: bookmark.id)
 
       expect(bookmark).to be_a Bookmark
-      expect(bookmark.id).to eq persisted_data['id']
+      expect(bookmark.id).to eq persisted_data.first['id']
       expect(bookmark.url).to eq('https://www.bbc.co.uk/')
       expect(bookmark.title).to eq('BBC')
+    end
+  end
+
+  describe '.delete' do
+    it 'deletes a bookmark' do
+      bookmark = Bookmark.create(url: 'https://www.bbc.co.uk/', title: 'BBC')
+      Bookmark.delete(id: bookmark.id)
+
+      expect(Bookmark.all).to be_empty
     end
   end
 end
