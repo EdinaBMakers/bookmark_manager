@@ -1,0 +1,21 @@
+<h3>Edit bookmark</h3>
+
+<% if @bookmark != nil %>
+  <form action='/bookmarks/<%= @bookmark.id %>' method='post'>
+    <input type='hidden' name='_method' value='PATCH'/>
+    <label for='url'>Url</label>
+    <br>
+    <input type='text' name='url' placeholder=<%= @bookmark.url %>>
+    <br>
+    <label for='title'>Title</label>
+    <br>
+    <input type='text' name='title' placeholder=<%= @bookmark.title %>>
+    <br>
+    <input type='submit' value='Update'>
+  </form>
+<% else %>
+  Bookmark cannot be found
+  <form action='/bookmarks'>
+    <input type='submit' value='Bookmarks'>
+  </form>
+<% end %>

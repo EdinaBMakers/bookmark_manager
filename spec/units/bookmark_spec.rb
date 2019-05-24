@@ -4,7 +4,7 @@ require 'database_helpers'
 describe Bookmark do
   describe '#new' do
     it 'creates a bookmark with id, url and title' do
-      bookmark = Bookmark.new(1, 'https://makers.tech/', 'Makers')
+      bookmark = Bookmark.new(id: 1, url: 'https://makers.tech/', title: 'Makers')
 
       expect(bookmark.id).to eq(1)
       expect(bookmark.url).to eq('https://makers.tech/')
@@ -46,6 +46,28 @@ describe Bookmark do
       Bookmark.delete(id: bookmark.id)
 
       expect(Bookmark.all).to be_empty
+    end
+  end
+
+  describe '.find' do
+    it 'returns bookmark when bookmark can be found with the given id' do
+      bookmark = Bookmark.create(url: 'https://www.bbc.co.uk/', title: 'BBC')
+
+      expect(Bookmark.find(id: bookmark.id)).to eq(bookmark)
+    end
+
+    it 'returns nil when bookmark cannot be found with the given id' do
+      expect(Bookmark.find(id: -1)).to eq(nil)
+    end
+  end
+
+  describe '.update' do
+    it 'updates the given bookmark' do
+      bookmark = Bookmark.create(url: 'https://www.bbc.co.uk/', title: 'BBC')
+      updated_bookmark = Bookmark.new(id: bookmark.id, url: 'https://makers.tech/', title: 'Makers')
+      Bookmark.update(updated_bookmark: updated_bookmark)
+
+      expect(Bookmark.find(id: bookmark.id)).to eq(updated_bookmark)
     end
   end
 end
