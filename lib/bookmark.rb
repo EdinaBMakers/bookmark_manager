@@ -1,4 +1,4 @@
-require 'pg'
+require 'database_connection'
 
 class Bookmark
   attr_reader :id, :url, :title
@@ -10,43 +10,37 @@ class Bookmark
   end
 
   def self.all
-    connection = connect_to_db
-    result = connection.exec("SELECT * FROM bookmarks")
-
+    result = DatabaseConnection.query("SELECT * FROM bookmarks")
     result.map { |bookmark_hash| to_bookmark(bookmark_hash) }
   end
 
   def self.create(url:, title:)
-    connection = connect_to_db
-    bookmark_hash = connection.exec("INSERT INTO bookmarks (url, title)" +\
+    result = DatabaseConnection.query("INSERT INTO bookmarks (url, title)" +\
     "VALUES('#{url}', '#{title}') RETURNING id, url, title").first
 
-    to_bookmark(bookmark_hash)
+    to_bookmark(result)
   end
 
   def self.delete(id:)
-    connection = connect_to_db
-    connection.exec("DELETE FROM bookmarks WHERE id = #{id}")
+    DatabaseConnection.query("DELETE FROM bookmarks WHERE id = #{id}")
   end
 
   def self.find(id:)
-    connection = connect_to_db
-    result = connection.exec("SELECT * FROM bookmarks WHERE id = #{id}")
+    result = DatabaseConnection.query("SELECT * FROM bookmarks WHERE id = #{id}")
     result.ntuples == 0 \
       ? nil \
       : to_bookmark(result.first)
   end
 
   def self.update(updated_bookmark:)
-    connection = connect_to_db
-    connection.exec("UPDATE bookmarks SET url = '#{updated_bookmark.url}', " +\
+    DatabaseConnection.query("UPDATE bookmarks SET url = '#{updated_bookmark.url}', " +\
       "title = '#{updated_bookmark.title}' WHERE id = #{updated_bookmark.id}")
   end
 
   def eql?(other_bookmark)
     return false if other_bookmark == nil
     return false unless other_bookmark.is_a?(Bookmark)
-    
+
     @id == other_bookmark.id \
     && @url == other_bookmark.url \
     && @title == other_bookmark.title
@@ -61,14 +55,6 @@ class Bookmark
   end
 
   private
-
-  def self.connect_to_db
-    if ENV['ENVIRONMENT'] == 'test'
-      PG.connect(:dbname => 'bookmark_manager_test')
-    else
-      PG.connect(:dbname => 'bookmark_manager')
-    end
-  end
 
   def self.to_bookmark(bookmark_hash)
     Bookmark.new(id: bookmark_hash['id'], \
